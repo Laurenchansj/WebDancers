@@ -1,5 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
+import { GoogleMap } from "../components/googleMap";
+import countriesList from "../location/location.json";
+
+// let blogArray = [];
 
 export default function NewBlog({ onAddBlog }) {
   const [country, setCountry] = useState("");
@@ -12,6 +16,18 @@ export default function NewBlog({ onAddBlog }) {
   const [postBtn, setPostBtn] = useState(false);
   const random = Math.floor(Math.random() * 1000000000000000);
   const [id, setId] = useState(random);
+
+  // for temporary use: storing data in local storage
+  // const [blogArray, setBlogArray] = useState([]);
+
+  // useEffect(() => {
+  //   const storedBlogsData = localStorage.getItem("Blog");
+  //   const storedBlogs = storedBlogsData ? JSON.parse(storedBlogsData) : [];
+
+  //   setBlogArray(storedBlogs);
+  // }, []);
+
+  //---------------------------
 
   const handleCountryChange = (event) => {
     setCountry(event.target.value);
@@ -41,11 +57,12 @@ export default function NewBlog({ onAddBlog }) {
   const handleDescription = (index, event) => {
     const updatedDescription = [...description];
     updatedDescription[index] = event;
-
+    const latestDescription = updatedDescription.slice(0, duration);
     // setDescription((event) => {
     //   return [...updatedDescription, event];
     // });
-    setDescription(updatedDescription);
+
+    setDescription(latestDescription);
   };
 
   const checkDate = () => {
@@ -61,16 +78,6 @@ export default function NewBlog({ onAddBlog }) {
     return duration;
   };
 
-  // const handleDisplayNext = () => {
-  //   if (country.length === 0 && city.length === 0) {
-  //     alert("Please select countries and cities first.");
-  //   } else if (country.length !== 0 && city.length !== 0 && duration === "") {
-  //     alert("Please select start date and end date.");
-  //   } else {
-  //     setDescriptionCondition(true);
-  //   }
-  // };
-
   useEffect(() => {
     if (startDate !== "" && endDate != "") {
       checkDate();
@@ -79,12 +86,20 @@ export default function NewBlog({ onAddBlog }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (country.length === 0 || city.length === 0 || duration === 0) {
+
+    if (
+      country.length === 0 ||
+      city.length === 0 ||
+      duration === 0 ||
+      title.length === 0 ||
+      description.length === 0
+    ) {
       alert("Please select countries, cities, start date and end date.");
     } else {
       alert("Your post has been submitted.");
 
       const Blog = {
+        id: id,
         country: country,
         city: city,
         startDate: startDate,
@@ -96,8 +111,19 @@ export default function NewBlog({ onAddBlog }) {
         // })),
         //description: Array.from({ description }, (_, i) => ({ i })),
         description: description,
-        id: id,
       };
+
+      // for temporary use: storing data in local storage
+      // blogArray.push(Blog);
+      // if (blogArray.length > 0) {
+      //   setBlogArray((blogArray) => [Blog, ...blogArray]);
+
+      //   localStorage.setItem("Blog", JSON.stringify([Blog, ...blogArray]));
+      // } else {
+      //   localStorage.setItem("Blog", JSON.stringify(Blog));
+      // }
+
+      //----------------------------
 
       onAddBlog(Blog);
 
@@ -112,128 +138,164 @@ export default function NewBlog({ onAddBlog }) {
     }
   };
 
+  const countryName = Object.keys(countriesList);
+  let countriesNameList = [];
+  for (let i = 0; i < countryName.length; i++) {
+    countriesNameList.push(countryName[i]);
+  }
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <p className="text-2xl text-cyan-600">New Post</p>
-        <div className="w-fit m-2 mt-5 p-5 border border-cyan-600 rounded-lg bg-sky-50">
-          <table>
-            <tbody>
-              <tr>
-                <td className="text-right">
-                  <label className="mr-5 text-cyan-800">Country: </label>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
-                    placeholder="Select Countries..."
-                    onChange={handleCountryChange}
-                    value={country}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td className="text-right">
-                  <label className="mr-5 text-cyan-800">City: </label>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
-                    placeholder="Select Cities..."
-                    onChange={handleCityChange}
-                    value={city}
-                  ></input>
-                </td>
-              </tr>
-              <tr>
-                <td className="text-right">
-                  <label className="mr-5 text-cyan-800">Date: </label>
-                </td>
-                <td>
-                  <input
-                    type="date"
-                    className="form-input w-40 max-w-md p-1 mr-1 border border-gray-300 rounded"
-                    placeholder="Select Start Date..."
-                    onChange={handleStartDateChange}
-                    value={startDate}
-                  ></input>
-                  <input
-                    type="date"
-                    className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
-                    placeholder="Select End Date..."
-                    onChange={handleEndDateChange}
-                    value={endDate}
-                  ></input>
-                </td>
-              </tr>
-              <tr className="text-right">
-                <td>
-                  <label className="mr-5 text-cyan-800">Title: </label>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
-                    placeholder="Title..."
-                    value={title}
-                    onChange={handleTitleChange}
-                  ></input>
-                </td>
-              </tr>
-              {duration === 0 ? (
+      <p className="text-2xl text-cyan-600">New Post</p>
+      <form
+        style={{
+          display: "flex",
+          gap: "20px",
+        }}
+        onSubmit={handleSubmit}
+      >
+        <div
+          style={{
+            flex: "1",
+            overflowY: "auto",
+            maxHeight: "100hv",
+          }}
+        >
+          <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
+            <li>
+              <p>Description</p>
+            </li>
+          </ul>
+
+          <div
+            className="p-5 border border-cyan-600 rounded-lg bg-sky-50"
+            style={{ width: "800px" }}
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td className="text-left">
+                    <label className="mr-5 text-cyan-800">Country: </label>
+                  </td>
+                  <td className="text-left">
+                    <label className="mr-5 text-cyan-800">City: </label>
+                  </td>
+                  <td className="text-left">
+                    <label className="mr-5 text-cyan-800">From: </label>
+                  </td>
+                  <td className="text-left">
+                    <label className="mr-5 text-cyan-800">To: </label>
+                  </td>
+                </tr>
                 <tr>
                   <td>
-                    <p className="pt-8 text-cyan-800 font-bold">Description</p>
+                    <input
+                      list="countries"
+                      className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
+                      placeholder="Select Countries..."
+                      onChange={handleCountryChange}
+                      value={country}
+                    ></input>
+                    <datalist id="countries">
+                      {countriesNameList.map((country) => {
+                        return <option key={country}>{country}</option>;
+                      })}
+                    </datalist>
                   </td>
                   <td>
-                    <p className="pt-8 pl-5 text-cyan-800"> ...</p>
+                    <input
+                      type="text"
+                      className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
+                      placeholder="Which Cities..."
+                      onChange={handleCityChange}
+                      value={city}
+                    ></input>
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
+                      onChange={handleStartDateChange}
+                      value={startDate}
+                    ></input>
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
+                      onChange={handleEndDateChange}
+                      value={endDate}
+                    ></input>
                   </td>
                 </tr>
-              ) : (
-                <tr className="text-center text-cyan-800 font-bold">
-                  <td className="pt-5 pb-2">Day</td>
-                  <td className="pt-5 pb-2">Description</td>
+                <tr>
+                  <td colSpan={4} className="text-left pt-5">
+                    <label className="pt-5 text-cyan-800 col-span-4">
+                      Title:
+                    </label>
+                  </td>
                 </tr>
-              )}
+                <tr>
+                  <td colSpan={4}>
+                    <input
+                      type="text"
+                      className="form-input w-full p-1 mr-1 border border-gray-300 rounded"
+                      placeholder="Title..."
+                      onChange={handleTitleChange}
+                      value={title}
+                    ></input>
+                  </td>
+                </tr>
 
-              {[...Array(duration)].map((_, i) => (
-                <tr key={i + 1} className="text-cyan-800">
-                  <td className="px-5">
-                    <p>Day {i + 1}</p>
-                  </td>
-                  <td>
-                    <textarea
-                      className="form-input w-80 p-1 mr-1 border border-gray-300 rounded"
-                      placeholder="Description..."
-                      onChange={(description) =>
-                        handleDescription(i, description.target.value)
-                      }
-                      value={description[i]}
-                      style={{ WhiteSpace: "pre-line" }}
-                    ></textarea>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {postBtn ? (
-          <div className="grid justify-items-end mt-5 m-1">
-            <button
-              type="submit"
-              className="ml-2 p-2 px-4 bg-cyan-600 text-white rounded-lg hover:bg-cyan-900"
-              value={postBtn}
-            >
-              Post
-            </button>
+                {[...Array(duration)].map((_, i) => (
+                  <tr key={i + 1} className="text-cyan-800">
+                    <td colSpan={4} className="pt-5">
+                      <p>Day {i + 1}</p>
+                      <textarea
+                        className="form-input w-full p-1 mr-1 border border-gray-300 rounded"
+                        placeholder="Description..."
+                        onChange={(description) =>
+                          handleDescription(i, description.target.value)
+                        }
+                        value={description[i]}
+                        style={{ WhiteSpace: "pre-line" }}
+                      ></textarea>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ) : (
-          <div></div>
-        )}
+          {postBtn ? (
+            <div className="grid justify-items-end mt-5 m-1">
+              <button
+                type="submit"
+                className="ml-2 p-2 px-4 bg-cyan-600 text-white rounded-lg hover:bg-cyan-900"
+                value={postBtn}
+              >
+                Post
+              </button>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {/* <div className="border border-black my-2"></div> */}
+        </div>
+        <div
+          style={{
+            flex: "1",
+            overflowY: "auto",
+            maxHeight: "100hv",
+          }}
+        >
+          <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
+            <li>
+              <p>Map</p>
+            </li>
+          </ul>
+          <GoogleMap />
+        </div>
       </form>
-      <div className="border border-black my-2"></div>
     </div>
   );
 }

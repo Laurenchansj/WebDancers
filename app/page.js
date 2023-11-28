@@ -2,21 +2,27 @@
 
 import Nav from "../components/nav";
 import React from "react";
-import BlogHome from "../pages/blogHome";
+import { useState, useEffect } from "react";
+import BlogList from "./blogPage/blog-list";
+
+import Image from "next/image";
+import { GoogleMap } from "./components/googleMap";
+import { useUserAuth } from "./_services/auth-context";
 
 export default function Home() {
-  function initMap() {
-    const map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8,
-    });
-  }
+  const { user } = useUserAuth();
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <main className="flex flex-col min-h-screen items-center p-24">
       <Nav />
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <BlogHome />
+      {user ? <p className="m-4">Welcome, {user.displayName}</p> : <p></p>}
+      <div className="flex flex-col lg:flex-row w-full">
+        <div>
+          <p className="text-3xl mb-4 font-bold text-cyan-900">
+            Latest Blog &#10024;
+          </p>
+          {/* <BlogList blogs={blogs} className="mb-5" /> */}
+        </div>
       </div>
     </main>
   );
