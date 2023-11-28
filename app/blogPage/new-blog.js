@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { GoogleMap } from "../components/googleMap";
+import { GoogleMap } from "../../components/googleMap";
 import countriesList from "../location/location.json";
 
 // let blogArray = [];

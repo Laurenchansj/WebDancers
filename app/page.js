@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import BlogList from "./blogPage/blog-list";
 
 import Image from "next/image";
-import { GoogleMap } from "./components/googleMap";
 import { useUserAuth } from "./_services/auth-context";
 
 export default function Home() {

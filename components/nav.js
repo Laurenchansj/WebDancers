@@ -1,9 +1,8 @@
 "use client";
 
+import { useUserAuth } from "@/app/_services/auth-context";
 import Link from "next/link";
 import React from "react";
-import { useUserAuth } from "../app/_services/auth-context";
-// import Login from "./login/login";
 
 export default function Nav() {
   const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
@@ -38,12 +37,6 @@ export default function Nav() {
       </div>
 
       <div className="flex-grow-0">
-        {/* <button
-          onClick={handleSignIn}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Log In
-        </button> */}
         <div>
           {user ? (
             <div className="flex flex-row">
