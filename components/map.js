@@ -3,10 +3,12 @@
 import React, {useEffect, useState} from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
-export function Map(){
+function Map(){
 
     //const mapRef = useRef(null);
     const [map, setMap] = useState(null);
+    const [locations, setLocations] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState(null);
 
     useEffect(() => {
         const initMap = async () => {
@@ -29,7 +31,6 @@ export function Map(){
             const mapOptions = {
                 center: position,
                 zoom: 14,
-                mapId: 'MY_NEXTJS_MAPID'
             }
 
             //setup the map
@@ -52,3 +53,5 @@ export function Map(){
        <div id="map" style={{ height: "600px", width: "100%" }} />
     )
 }
+
+export default Map;
