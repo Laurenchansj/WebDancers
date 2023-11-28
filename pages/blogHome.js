@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import NewBlog from "./newBlog"
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 
 export default function BlogHome() {
   const router = useRouter();
-  const [newBlogOpen, setNewBlogOpen] = useState(false);
+  // const [newBlogOpen, setNewBlogOpen] = useState(false);
 
   // const handleOpenNewBlog = () => {
   //   setNewBlogOpen(true);
@@ -35,7 +34,7 @@ export default function BlogHome() {
                 <button style={buttonStyles} onClick={handleOpenNewBlog}>
                     Create Blog
                   </button>
-                {newBlogOpen && <NewBlog />}
+                {/* {newBlogOpen && <NewBlog />} */}
             </section>
         </main>
       </div>

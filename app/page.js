@@ -1,6 +1,6 @@
 "use client";
 
-import Nav from "./nav";
+import Nav from "../components/nav";
 import React from "react";
 import BlogHome from "../pages/blogHome";
 
