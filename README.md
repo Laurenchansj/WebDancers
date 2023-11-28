@@ -26,6 +26,14 @@ To install existing packages
 Use the command below to install the existing packages we use to build the application.
 
 ```bash
+npm install firebase
+```
+
+```bash
+npm install encoding
+```
+
+```bash
 npm i @googlemaps/js-api-loader
 ```
 

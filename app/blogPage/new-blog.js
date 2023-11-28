@@ -53,12 +53,10 @@ export default function NewBlog({ onAddBlog }) {
 
     setDescription(latestDescription);
 
-
     // setDescription((event) => {
     //   return [...updatedDescription, event];
     // });
     //setDescription(updatedDescription);
-
   };
 
   const checkDate = () => {
@@ -140,8 +138,9 @@ export default function NewBlog({ onAddBlog }) {
       >
         <div
           style={{
-            flex: "1",
-            overflowY: "auto",
+            // flex: "1",
+            width: "800px",
+            overflowX: "auto",
             maxHeight: "100hv",
           }}
         >
