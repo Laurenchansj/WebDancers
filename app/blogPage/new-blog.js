@@ -17,18 +17,6 @@ export default function NewBlog({ onAddBlog }) {
   const random = Math.floor(Math.random() * 1000000000000000);
   const [id, setId] = useState(random);
 
-  // for temporary use: storing data in local storage
-  // const [blogArray, setBlogArray] = useState([]);
-
-  // useEffect(() => {
-  //   const storedBlogsData = localStorage.getItem("Blog");
-  //   const storedBlogs = storedBlogsData ? JSON.parse(storedBlogsData) : [];
-
-  //   setBlogArray(storedBlogs);
-  // }, []);
-
-  //---------------------------
-
   const handleCountryChange = (event) => {
     setCountry(event.target.value);
     return country;
@@ -57,12 +45,20 @@ export default function NewBlog({ onAddBlog }) {
   const handleDescription = (index, event) => {
     const updatedDescription = [...description];
     updatedDescription[index] = event;
+
     const latestDescription = updatedDescription.slice(0, duration);
     // setDescription((event) => {
     //   return [...updatedDescription, event];
     // });
 
     setDescription(latestDescription);
+
+
+    // setDescription((event) => {
+    //   return [...updatedDescription, event];
+    // });
+    //setDescription(updatedDescription);
+
   };
 
   const checkDate = () => {
@@ -99,7 +95,6 @@ export default function NewBlog({ onAddBlog }) {
       alert("Your post has been submitted.");
 
       const Blog = {
-        id: id,
         country: country,
         city: city,
         startDate: startDate,
@@ -111,19 +106,8 @@ export default function NewBlog({ onAddBlog }) {
         // })),
         //description: Array.from({ description }, (_, i) => ({ i })),
         description: description,
+        id: id,
       };
-
-      // for temporary use: storing data in local storage
-      // blogArray.push(Blog);
-      // if (blogArray.length > 0) {
-      //   setBlogArray((blogArray) => [Blog, ...blogArray]);
-
-      //   localStorage.setItem("Blog", JSON.stringify([Blog, ...blogArray]));
-      // } else {
-      //   localStorage.setItem("Blog", JSON.stringify(Blog));
-      // }
-
-      //----------------------------
 
       onAddBlog(Blog);
 

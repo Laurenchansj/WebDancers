@@ -15,7 +15,6 @@ export default function page() {
       return [...prevBlog, newBlog];
     });
   }
-
   return (
     <main className="flex min-h-screen flex-col items-center bg-white">
       <Nav />

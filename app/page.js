@@ -7,6 +7,7 @@ import BlogList from "./blogPage/blog-list";
 
 import Image from "next/image";
 import { useUserAuth } from "./_services/auth-context";
+import BlogHome from "@/pages/blogHome";
 
 export default function Home() {
   const { user } = useUserAuth();
@@ -21,6 +22,9 @@ export default function Home() {
             Latest Blog &#10024;
           </p>
           {/* <BlogList blogs={blogs} className="mb-5" /> */}
+        </div>
+        <div>
+          <BlogHome />
         </div>
       </div>
     </main>

@@ -12,7 +12,7 @@ export default function Blog({ blog }) {
         Date: {blog.startDate} to {blog.endDate}
       </p>
       <p>Duration: {blog.duration} days</p>
-      <p className="mt-2 text-lg">Title: {blog.title}</p>
+      <p className="mt-2 text-lg font-semibold">Title: {blog.title}</p>
 
       {description.map((_, i) => (
         <div key={i} className="mt-2">
