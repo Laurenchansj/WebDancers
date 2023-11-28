@@ -20,8 +20,11 @@ export default function page() {
     <main className="flex min-h-screen flex-col items-center bg-white">
       <Nav />
       {user ? (
-        <div className="mt-20">
-          <NewBlog onAddBlog={handleAddBlog} />
+        <div>
+          <div className="mt-20">
+            <NewBlog onAddBlog={handleAddBlog} />
+          </div>
+          <BlogList blogs={blogs} className="mb-5" />
         </div>
       ) : (
         <p className="mt-20">Please Log In first.</p>
