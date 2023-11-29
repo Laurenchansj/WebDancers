@@ -1,13 +1,13 @@
+
 "use client";
 
 import Nav from "../components/nav";
 import React from "react";
-import { useState, useEffect } from "react";
-import BlogList from "./blogPage/blog-list";
-
 import Image from "next/image";
 import { useUserAuth } from "./_services/auth-context";
-import BlogHome from "@/pages/blogHome";
+import BlogHome from "../pages/blogHome";
+import Index from "./index"
+
 
 export default function Home() {
   const { user } = useUserAuth();
