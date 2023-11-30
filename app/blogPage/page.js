@@ -1,5 +1,5 @@
 "use client";
-import NewBlog from "./new-blog";
+import NewBlog2 from "./new-blog-2";
 import Nav from "../../components/nav";
 import BlogList from "./blog-list";
 import { useState } from "react";
@@ -16,17 +16,17 @@ export default function page() {
     });
   }
   return (
-    <main className="flex min-h-screen flex-col items-center bg-white">
+    <main className='flex min-h-screen flex-col items-center bg-white'>
       <Nav />
       {user ? (
         <div>
-          <div className="mt-20">
-            <NewBlog onAddBlog={handleAddBlog} />
+          <div className='mt-20'>
+            <NewBlog2 onAddBlog={handleAddBlog} />
           </div>
-          <BlogList blogs={blogs} className="mb-5" />
+          <BlogList blogs={blogs} className='mb-5' />
         </div>
       ) : (
-        <p className="mt-20">Please Log In first.</p>
+        <p className='mt-20'>Please Log In first.</p>
       )}
     </main>
   );
