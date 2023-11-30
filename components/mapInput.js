@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -15,7 +15,7 @@ export function MapInput({ onSelectPlace }) {
   const handleSelect = async ({ description }) => {
     setValue(description, false);
     clearSuggestions();
-    setSelectedPlace(null);
+    // setSelectedPlace("");
 
     try {
       const results = await getGeocode({ address: description });
@@ -38,6 +38,8 @@ export function MapInput({ onSelectPlace }) {
     event.preventDefault();
     setValue("");
     clearSuggestions();
+    setSelectedPlace("");
+    // setSelectedPlace(null);
     console.log(setValue);
   };
 
@@ -46,7 +48,10 @@ export function MapInput({ onSelectPlace }) {
       <input
         // value={selectedPlace ? selectedPlace : suggestions.value}
         value={selectedPlace}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          setValue(e.target.value);
+          setSelectedPlace(e.target.value);
+        }}
         placeholder='Enter a location'
         className='border border-gray-300 rounded'
       />
