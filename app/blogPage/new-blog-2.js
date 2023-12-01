@@ -89,7 +89,6 @@ export default function NewBlog2({ onAddBlog }) {
     event.preventDefault();
 
     if (duration === 0 || title.length === 0 || memo.length === 0) {
-      //description.length === 0
       alert("Please input start date, end date, title, and description.");
     } else {
       try {
@@ -106,16 +105,14 @@ export default function NewBlog2({ onAddBlog }) {
           const dayMemo = memo[i];
           console.log("dayLocations: ", dayLocations);
           console.log("dayMemo: ", dayMemo);
-          // return { [dayId]: dayLocations };
-          return { [dayId]: dayLocations, dayMemo };
-          // return { dayId, locations: dayLocations, memo: dayMemo };
+          return { dayLocations, dayMemo };
         });
 
         //3rd way
         const blogDocRef = await addDoc(
           collection(db, `users/${user.uid}/blogs2`),
           {
-            userId: user.uid,
+            // userId: user.uid,
             startDate: Timestamp.fromDate(new Date(startDate)),
             endDate: Timestamp.fromDate(new Date(endDate)),
             duration: duration,
@@ -126,43 +123,6 @@ export default function NewBlog2({ onAddBlog }) {
         );
         console.log("blogDocRef: ", blogDocRef);
 
-        // const daysRef = collection(db, `blogs2/${blogDocRef.id}/days`);
-        // console.log("daysRef: ", daysRef);
-        // for (const day of daysData) {
-        //   day.userId = user.uid;
-        //   await addDoc(daysRef, day);
-        //   console.log("daydata: ", day);
-        // }
-        // console.log("daysRef: ", daysRef);
-
-        //2nd way
-        // const blogDocRef = await addDoc(collection(db, "blogs"), {
-        //   userId: user.uid,
-        //   startDate: Timestamp.fromDate(new Date(startDate)),
-        //   endDate: Timestamp.fromDate(new Date(endDate)),
-        //   duration: duration,
-        //   title: title,
-        // });
-        // console.log("blogDocRef: ", blogDocRef);
-
-        // const daysRef = collection(db, `blogs/${blogDocRef.id}/days`);
-        // for (const day of daysData) {
-        //   day.userId = user.uid;
-        //   await addDoc(daysRef, day);
-        //   console.log("daydata: ", day);
-        // }
-        // console.log("daysRef: ", daysRef);
-
-        // 1st way
-        // const docRef = await addDoc(collection(db, "blogs"), {
-        //   userId: user.uid,
-        //   startDate: startDate,
-        //   endDate: endDate,
-        //   duration: duration,
-        //   title: title,
-        //   days: Object.assign({}, ...daysData),
-        // });
-        // console.log(docRef);
         alert("Your post has been submitted.");
 
         const Blog = {
