@@ -3,13 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
-import usePlaceAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
-
-// export function MapOnly({ selectedPlace }) {
-
 export function MapOnly({ locations }) {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -40,17 +33,6 @@ export function MapOnly({ locations }) {
 
     initMap();
   }, []); // Empty dependency array ensures that this effect runs once after the initial render
-
-  // useEffect(() => {
-  //   if (map && selectedPlace) {
-  //     const newMarker = new google.maps.Marker({
-  //       position: { lat: selectedPlace.lat, lng: selectedPlace.lng },
-  //       map,
-  //       title: selectedPlace.description,
-  //     });
-  //     setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
-  //   }
-  //   }, [map, selectedPlace]);
 
   useEffect(() => {
     markers.forEach((marker) => marker.setMap(null));
