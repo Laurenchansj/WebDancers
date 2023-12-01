@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { GoogleMap } from "../../components/googleMap";
-import countriesList from "../location/location.json";
+import { MapOnly } from "@/components/mapOnly";
+import { MapInput } from "@/components/mapInput";
+import { useUserAuth } from "../_services/auth-context";
+import { collection, addDoc, Timestamp, doc } from "firebase/firestore";
+import { auth, firestore as db } from "../_services/firebase";
+import LocationList from "@/components/locationList";
 
-// let blogArray = [];
-
-export default function NewBlog({ onAddBlog }) {
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
+export default function NewBlog2({ onAddBlog }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [duration, setDuration] = useState(0);
@@ -17,14 +17,13 @@ export default function NewBlog({ onAddBlog }) {
   const random = Math.floor(Math.random() * 1000000000000000);
   const [id, setId] = useState(random);
 
-  const handleCountryChange = (event) => {
-    setCountry(event.target.value);
-    return country;
-  };
+  const [locations, setLocations] = useState([]); // [{lat, lng, description}
+  const { user } = useUserAuth();
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
-  const handleCityChange = (event) => {
-    setCity(event.target.value);
-    return city;
+  const handleSelectPlace = (place, day) => {
+    setSelectedPlace(place);
+    setLocations((prevLocations) => [...prevLocations, { ...place, day }]);
   };
 
   const handleStartDateChange = (event) => {
@@ -47,16 +46,15 @@ export default function NewBlog({ onAddBlog }) {
     updatedDescription[index] = event;
 
     const latestDescription = updatedDescription.slice(0, duration);
-    // setDescription((event) => {
-    //   return [...updatedDescription, event];
-    // });
 
     setDescription(latestDescription);
+  };
 
-    // setDescription((event) => {
-    //   return [...updatedDescription, event];
-    // });
-    //setDescription(updatedDescription);
+  const handleDelete = (index) => {
+    const updatedPlaces = [...locations];
+    updatedPlaces.splice(index, 1);
+
+    setLocations(updatedPlaces);
   };
 
   const checkDate = () => {
@@ -78,57 +76,98 @@ export default function NewBlog({ onAddBlog }) {
     }
   }, [startDate, endDate]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (
-      country.length === 0 ||
-      city.length === 0 ||
-      duration === 0 ||
-      title.length === 0 ||
-      description.length === 0
-    ) {
-      alert("Please select countries, cities, start date and end date.");
+    if (duration === 0 || title.length === 0 || description.length === 0) {
+      alert("Please input start date, end date, title, and description.");
     } else {
-      alert("Your post has been submitted.");
+      try {
+        const daysData = Array.from({ length: duration }, (_, i) => {
+          const dayId = `${i + 1}`;
+          const dayLocations = locations
+            .filter((location) => location.day === `day${dayId}`)
+            .map(({ lat, lng, description }) => ({
+              lat,
+              lng,
+              description,
+            }));
+          console.log("dayLocations: ", dayLocations);
+          return { [dayId]: dayLocations };
+          // return { dayId, locations: dayLocations };
+        });
 
-      const Blog = {
-        country: country,
-        city: city,
-        startDate: startDate,
-        endDate: endDate,
-        duration: duration,
-        title: title,
-        // day: Array.from({ length: duration }, (_, i) => ({
-        //   day: i + 1,
-        // })),
-        //description: Array.from({ description }, (_, i) => ({ i })),
-        description: description,
-        id: id,
-      };
+        const blogDocRef = await addDoc(collection(db, "blogs"), {
+          userId: user.uid,
+          startDate: Timestamp.fromDate(new Date(startDate)),
+          endDate: Timestamp.fromDate(new Date(endDate)),
+          duration: duration,
+          title: title,
+        });
+        console.log("blogDocRef: ", blogDocRef);
 
-      onAddBlog(Blog);
+        const daysRef = collection(db, `blogs/${blogDocRef.id}/days`);
+        for (const day of daysData) {
+          day.userId = user.uid;
+          await addDoc(daysRef, day);
+          console.log("daydata: ", day);
+        }
+        console.log("daysRef: ", daysRef);
 
-      setCountry("");
-      setCity("");
-      setStartDate("");
-      setEndDate("");
-      setDuration(0);
-      setTitle("");
-      setDescription(Array(duration).fill(""));
-      setPostBtn(false);
+        // const docRef = await addDoc(collection(db, "blogs"), {
+        //   userId: user.uid,
+        //   startDate: startDate,
+        //   endDate: endDate,
+        //   duration: duration,
+        //   title: title,
+        //   days: Object.assign({}, ...daysData),
+        // });
+        // console.log(docRef);
+        alert("Your post has been submitted.");
+
+        const Blog = {
+          startDate: startDate,
+          endDate: endDate,
+          duration: duration,
+          title: title,
+          description: description,
+          id: id,
+          // docId: docRef.id,
+        };
+
+        onAddBlog(Blog);
+
+        setStartDate("");
+        setEndDate("");
+        setDuration(0);
+        setTitle("");
+        setDescription(Array(duration).fill(""));
+        setPostBtn(false);
+      } catch (e) {
+        alert("Error adding document: ", e);
+        console.error("Error adding document: ", e);
+      }
     }
   };
-
-  const countryName = Object.keys(countriesList);
-  let countriesNameList = [];
-  for (let i = 0; i < countryName.length; i++) {
-    countriesNameList.push(countryName[i]);
-  }
 
   return (
     <div>
       <p className="text-2xl text-cyan-600">New Post</p>
+      <div
+        style={{
+          flex: "1",
+          overflowY: "auto",
+          maxHeight: "100hv",
+        }}
+      >
+        <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
+          <li>
+            <p>Map</p>
+          </li>
+        </ul>
+        {/* <MapOnly selectedPlace={selectedPlace} /> */}
+        <MapOnly locations={locations} />
+      </div>
       <form
         style={{
           display: "flex",
@@ -158,12 +197,6 @@ export default function NewBlog({ onAddBlog }) {
               <tbody>
                 <tr>
                   <td className="text-left">
-                    <label className="mr-5 text-cyan-800">Country: </label>
-                  </td>
-                  <td className="text-left">
-                    <label className="mr-5 text-cyan-800">City: </label>
-                  </td>
-                  <td className="text-left">
                     <label className="mr-5 text-cyan-800">From: </label>
                   </td>
                   <td className="text-left">
@@ -171,29 +204,6 @@ export default function NewBlog({ onAddBlog }) {
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <input
-                      list="countries"
-                      className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
-                      placeholder="Select Countries..."
-                      onChange={handleCountryChange}
-                      value={country}
-                    ></input>
-                    <datalist id="countries">
-                      {countriesNameList.map((country) => {
-                        return <option key={country}>{country}</option>;
-                      })}
-                    </datalist>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-input w-full max-w-md p-1 mr-1 border border-gray-300 rounded"
-                      placeholder="Which Cities..."
-                      onChange={handleCityChange}
-                      value={city}
-                    ></input>
-                  </td>
                   <td>
                     <input
                       type="date"
@@ -234,6 +244,18 @@ export default function NewBlog({ onAddBlog }) {
                   <tr key={i + 1} className="text-cyan-800">
                     <td colSpan={4} className="pt-5">
                       <p>Day {i + 1}</p>
+                      <MapInput
+                        onSelectPlace={(place) =>
+                          handleSelectPlace(place, `day${i + 1}`)
+                        }
+                      />
+                      <LocationList
+                        locations={locations.filter(
+                          (location) => location.day === `day${i + 1}`
+                        )}
+                        onDelete={handleDelete}
+                      />
+                      {/* <button onClick={setSelectedPlace(null)}>reset</button> */}
                       <textarea
                         className="form-input w-full p-1 mr-1 border border-gray-300 rounded"
                         placeholder="Description..."
@@ -262,21 +284,6 @@ export default function NewBlog({ onAddBlog }) {
           ) : (
             <div></div>
           )}
-          {/* <div className="border border-black my-2"></div> */}
-        </div>
-        <div
-          style={{
-            flex: "1",
-            overflowY: "auto",
-            maxHeight: "100hv",
-          }}
-        >
-          <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
-            <li>
-              <p>Map</p>
-            </li>
-          </ul>
-          <GoogleMap />
         </div>
       </form>
     </div>

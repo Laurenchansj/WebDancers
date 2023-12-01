@@ -1,5 +1,5 @@
 "use client";
-import NewBlog from "./new-blog";
+import NewBlog2 from "./new-blog-2";
 import Nav from "../../components/nav";
 import BlogList from "./blog-list";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export default function page() {
       {user ? (
         <div>
           <div className="mt-20">
-            <NewBlog onAddBlog={handleAddBlog} />
+            <NewBlog2 onAddBlog={handleAddBlog} />
           </div>
           <BlogList blogs={blogs} className="mb-5" />
         </div>

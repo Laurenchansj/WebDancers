@@ -6,8 +6,6 @@ export default function Blog({ blog }) {
 
   return (
     <div className="px-5 py-3 m-2 border border-cyan-900 rounded-lg text-cyan-800">
-      <p>Country: {blog.country}</p>
-      <p>City: {blog.city}</p>
       <p>
         Date: {blog.startDate} to {blog.endDate}
       </p>

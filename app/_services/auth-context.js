@@ -7,16 +7,41 @@ import {
   onAuthStateChanged,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, firestore } from "./firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const gitHubSignIn = () => {
-    const provider = new GithubAuthProvider();
-    return signInWithPopup(auth, provider);
+  // const gitHubSignIn = () => {
+  //   const provider = new GithubAuthProvider();
+  //   return signInWithPopup(auth, provider);
+  // };
+
+  const gitHubSignIn = async () => {
+    try {
+      const userCredential = await signInWithPopup(
+        auth,
+        new GithubAuthProvider()
+      );
+
+      const user = userCredential.user;
+
+      const userRef = collection(firestore, "users");
+      const userDoc = doc(userRef, user.uid);
+
+      const userInfo = {
+        name: user.displayName,
+        email: user.email,
+      };
+
+      await setDoc(userDoc, userInfo, { merge: true });
+      console.log("User info added to firestore: ", userInfo);
+    } catch (error) {
+      console.error("Error signing in: ", error.message);
+    }
   };
 
   const firebaseSignOut = () => {

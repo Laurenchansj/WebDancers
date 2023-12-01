@@ -84,13 +84,13 @@ export function AutoCompleteGoogleMap() {
   return (
     <div>
       <h1>Map</h1>
-      <div id='map' style={{ height: "600px", width: "600px" }} />
+      <div id="map" style={{ height: "600px", width: "600px" }} />
 
       <div>
         <input
           value={suggestions.value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder='Enter a location'
+          placeholder="Enter a location"
         />
         <ul>
           {suggestions.data?.map((suggestion) => (
