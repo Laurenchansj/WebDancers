@@ -8,7 +8,7 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import { auth, firestore } from "./firebase";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -39,8 +39,23 @@ export const AuthContextProvider = ({ children }) => {
 
       await setDoc(userDoc, userInfo, { merge: true });
       console.log("User info added to firestore: ", userInfo);
+      await checkAndAddUser(userRef, user);
     } catch (error) {
       console.error("Error signing in: ", error.message);
+    }
+  };
+
+  const checkAndAddUser = async (userRef, user) => {
+    const userDoc = doc(userRef, user.uid);
+    const userDocSnap = await getDoc(userDoc);
+    if (!userDocSnap.exists()) {
+      const userDocRef = await addDoc(userDoc, {
+        name: user.displayName,
+        email: user.email,
+      });
+      console.log("User info added to firestore: ", userDocRef.id);
+    } else {
+      console.log("User already exists");
     }
   };
 
