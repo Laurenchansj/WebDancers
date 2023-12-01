@@ -1,11 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import { GoogleMap } from "../../components/googleMap";
+// import Map from "../../components/map";
 import countriesList from "../location/location.json";
+import { addBlog } from "../_services/blog-service";
+import { useUserAuth } from "../_services/auth-context";
 
 // let blogArray = [];
 
-export default function NewBlog({ onAddBlog }) {
+export default function NewBlog() {
+  const [writtenDate, setWrittenDate] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -14,8 +18,15 @@ export default function NewBlog({ onAddBlog }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState(Array(duration).fill(""));
   const [postBtn, setPostBtn] = useState(false);
-  const random = Math.floor(Math.random() * 1000000000000000);
-  const [id, setId] = useState(random);
+  const { user } = useUserAuth();
+  // const random = Math.floor(Math.random() * 1000000000000000);
+  // const [id, setId] = useState(random);
+
+  const handleWrittenDateChange = () => {
+    const writtenDate = getToday();
+    setWrittenDate(writtenDate);
+    return writtenDate;
+  };
 
   const handleCountryChange = (event) => {
     setCountry(event.target.value);
@@ -73,14 +84,13 @@ export default function NewBlog({ onAddBlog }) {
   };
 
   useEffect(() => {
+    handleWrittenDateChange();
     if (startDate !== "" && endDate != "") {
       checkDate();
     }
   }, [startDate, endDate]);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-
     if (
       country.length === 0 ||
       city.length === 0 ||
@@ -93,6 +103,7 @@ export default function NewBlog({ onAddBlog }) {
       alert("Your post has been submitted.");
 
       const Blog = {
+        writtenDate: writtenDate,
         country: country,
         city: city,
         startDate: startDate,
@@ -104,11 +115,11 @@ export default function NewBlog({ onAddBlog }) {
         // })),
         //description: Array.from({ description }, (_, i) => ({ i })),
         description: description,
-        id: id,
+        user: user.displayName,
+        // id: id,
       };
 
-      onAddBlog(Blog);
-
+      // onAddBlog(Blog);
       setCountry("");
       setCity("");
       setStartDate("");
@@ -117,6 +128,7 @@ export default function NewBlog({ onAddBlog }) {
       setTitle("");
       setDescription(Array(duration).fill(""));
       setPostBtn(false);
+      setWrittenDate("");
     }
   };
 
@@ -125,16 +137,38 @@ export default function NewBlog({ onAddBlog }) {
   for (let i = 0; i < countryName.length; i++) {
     countriesNameList.push(countryName[i]);
   }
+  const getToday = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const writtenDate = `${year}-${month}-${date}`;
+    return writtenDate;
+  };
 
   return (
     <div>
-      <p className="text-2xl text-cyan-600">New Post</p>
+      <p className="text-2xl text-cyan-600 mb-5">New Post</p>
       <form
         style={{
           display: "flex",
           gap: "20px",
         }}
-        onSubmit={handleSubmit}
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await addBlog({
+            writtenDate: writtenDate,
+            country: country,
+            city: city,
+            startDate: startDate,
+            endDate: endDate,
+            duration: duration,
+            title: title,
+            description: description,
+            user: user.displayName,
+          });
+          handleSubmit(e);
+        }}
       >
         <div
           style={{
@@ -144,18 +178,19 @@ export default function NewBlog({ onAddBlog }) {
             maxHeight: "100hv",
           }}
         >
-          <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
-            <li>
-              <p>Description</p>
-            </li>
-          </ul>
-
           <div
             className="p-5 border border-cyan-600 rounded-lg bg-sky-50"
             style={{ width: "800px" }}
           >
             <table>
               <tbody>
+                <tr>
+                  <td className="text-left">
+                    <p className="mb-3 mr-5 text-cyan-800">
+                      Written Date: {getToday()}
+                    </p>
+                  </td>
+                </tr>
                 <tr>
                   <td className="text-left">
                     <label className="mr-5 text-cyan-800">Country: </label>
@@ -271,11 +306,6 @@ export default function NewBlog({ onAddBlog }) {
             maxHeight: "100hv",
           }}
         >
-          <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
-            <li>
-              <p>Map</p>
-            </li>
-          </ul>
           <GoogleMap />
         </div>
       </form>

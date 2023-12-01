@@ -2,10 +2,9 @@ export default function Blog({ blog }) {
   if (!blog) {
     return <p> Error: Blog data is undefined.</p>;
   }
-  const { description } = blog;
 
   return (
-    <div className="px-5 py-3 m-2 border border-cyan-900 rounded-lg text-cyan-800">
+    <div className="px-5 py-3 m-2 border border-cyan-900 rounded-lg text-cyan-800 bg-white w-6/12">
       <p>Country: {blog.country}</p>
       <p>City: {blog.city}</p>
       <p>
@@ -14,10 +13,10 @@ export default function Blog({ blog }) {
       <p>Duration: {blog.duration} days</p>
       <p className="mt-2 text-lg font-semibold">Title: {blog.title}</p>
 
-      {description.map((_, i) => (
+      {blog.description.map((_, i) => (
         <div key={i} className="mt-2">
           <p className="font-semibold">Day {i + 1}</p>
-          <p style={{ whiteSpace: "pre-line" }}>{description[i]}</p>
+          <p style={{ whiteSpace: "pre-line" }}>{blog.description[i]}</p>
         </div>
       ))}
     </div>

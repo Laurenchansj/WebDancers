@@ -1,7 +1,7 @@
 "use client";
 import NewBlog from "./new-blog";
 import Nav from "../../components/nav";
-import BlogList from "./blog-list";
+// import BlogList from "./blog-list";
 import { useState } from "react";
 import React from "react";
 import { useUserAuth } from "../_services/auth-context";
@@ -23,7 +23,7 @@ export default function page() {
           <div className="mt-20">
             <NewBlog onAddBlog={handleAddBlog} />
           </div>
-          <BlogList blogs={blogs} className="mb-5" />
+          {/* <BlogList blogs={blogs} className="mb-5" /> */}
         </div>
       ) : (
         <p className="mt-20">Please Log In first.</p>

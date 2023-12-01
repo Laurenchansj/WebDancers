@@ -26,7 +26,7 @@ export default function Nav() {
   return (
     <header className="flex justify-between items-center w-full px-4 py-2 fixed top-0 bg-white shadow z-10">
       <div className="flex-grow-0">
-        <Link href="./" className="text-xl font-bold text-black">
+        <Link href="../" className="text-xl font-bold text-black">
           TravelDancer
         </Link>
       </div>
