@@ -12,7 +12,8 @@ export default function NewBlog2({ onAddBlog }) {
   const [endDate, setEndDate] = useState("");
   const [duration, setDuration] = useState(0);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState(Array(duration).fill(""));
+  // const [description, setDescription] = useState(Array(duration).fill(""));
+  const [memo, setMemo] = useState(Array(duration).fill(""));
   const [postBtn, setPostBtn] = useState(false);
   const random = Math.floor(Math.random() * 1000000000000000);
   const [id, setId] = useState(random);
@@ -41,13 +42,21 @@ export default function NewBlog2({ onAddBlog }) {
     return title;
   };
 
-  const handleDescription = (index, event) => {
-    const updatedDescription = [...description];
-    updatedDescription[index] = event;
+  // const handleDescription = (index, event) => {
+  //   const updatedDescription = [...description];
+  //   updatedDescription[index] = event;
 
-    const latestDescription = updatedDescription.slice(0, duration);
+  //   const latestDescription = updatedDescription.slice(0, duration);
 
-    setDescription(latestDescription);
+  //   setDescription(latestDescription);
+  // };
+  const handleMemo = (index, event) => {
+    const updatedMemo = [...memo];
+    updatedMemo[index] = event;
+
+    const latestMemo = updatedMemo.slice(0, duration);
+
+    setMemo(latestMemo);
   };
 
   const handleDelete = (index) => {
@@ -79,7 +88,8 @@ export default function NewBlog2({ onAddBlog }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (duration === 0 || title.length === 0 || description.length === 0) {
+    if (duration === 0 || title.length === 0 || memo.length === 0) {
+      //description.length === 0
       alert("Please input start date, end date, title, and description.");
     } else {
       try {
@@ -92,28 +102,58 @@ export default function NewBlog2({ onAddBlog }) {
               lng,
               description,
             }));
+
+          const dayMemo = memo[i];
           console.log("dayLocations: ", dayLocations);
-          return { [dayId]: dayLocations };
-          // return { dayId, locations: dayLocations };
+          console.log("dayMemo: ", dayMemo);
+          // return { [dayId]: dayLocations };
+          return { [dayId]: dayLocations, dayMemo };
+          // return { dayId, locations: dayLocations, memo: dayMemo };
         });
 
-        const blogDocRef = await addDoc(collection(db, "blogs"), {
-          userId: user.uid,
-          startDate: Timestamp.fromDate(new Date(startDate)),
-          endDate: Timestamp.fromDate(new Date(endDate)),
-          duration: duration,
-          title: title,
-        });
+        //3rd way
+        const blogDocRef = await addDoc(
+          collection(db, `users/${user.uid}/blogs2`),
+          {
+            userId: user.uid,
+            startDate: Timestamp.fromDate(new Date(startDate)),
+            endDate: Timestamp.fromDate(new Date(endDate)),
+            duration: duration,
+            title: title,
+            // days: Object.assign({}, ...daysData),
+            days: daysData,
+          }
+        );
         console.log("blogDocRef: ", blogDocRef);
 
-        const daysRef = collection(db, `blogs/${blogDocRef.id}/days`);
-        for (const day of daysData) {
-          day.userId = user.uid;
-          await addDoc(daysRef, day);
-          console.log("daydata: ", day);
-        }
-        console.log("daysRef: ", daysRef);
+        // const daysRef = collection(db, `blogs2/${blogDocRef.id}/days`);
+        // console.log("daysRef: ", daysRef);
+        // for (const day of daysData) {
+        //   day.userId = user.uid;
+        //   await addDoc(daysRef, day);
+        //   console.log("daydata: ", day);
+        // }
+        // console.log("daysRef: ", daysRef);
 
+        //2nd way
+        // const blogDocRef = await addDoc(collection(db, "blogs"), {
+        //   userId: user.uid,
+        //   startDate: Timestamp.fromDate(new Date(startDate)),
+        //   endDate: Timestamp.fromDate(new Date(endDate)),
+        //   duration: duration,
+        //   title: title,
+        // });
+        // console.log("blogDocRef: ", blogDocRef);
+
+        // const daysRef = collection(db, `blogs/${blogDocRef.id}/days`);
+        // for (const day of daysData) {
+        //   day.userId = user.uid;
+        //   await addDoc(daysRef, day);
+        //   console.log("daydata: ", day);
+        // }
+        // console.log("daysRef: ", daysRef);
+
+        // 1st way
         // const docRef = await addDoc(collection(db, "blogs"), {
         //   userId: user.uid,
         //   startDate: startDate,
@@ -130,7 +170,8 @@ export default function NewBlog2({ onAddBlog }) {
           endDate: endDate,
           duration: duration,
           title: title,
-          description: description,
+          // description: description,
+          memo: memo,
           id: id,
           // docId: docRef.id,
         };
@@ -141,7 +182,7 @@ export default function NewBlog2({ onAddBlog }) {
         setEndDate("");
         setDuration(0);
         setTitle("");
-        setDescription(Array(duration).fill(""));
+        setMemo(Array(duration).fill(""));
         setPostBtn(false);
       } catch (e) {
         alert("Error adding document: ", e);
@@ -259,10 +300,8 @@ export default function NewBlog2({ onAddBlog }) {
                       <textarea
                         className='form-input w-full p-1 mr-1 border border-gray-300 rounded'
                         placeholder='Description...'
-                        onChange={(description) =>
-                          handleDescription(i, description.target.value)
-                        }
-                        value={description[i]}
+                        onChange={(memo) => handleMemo(i, memo.target.value)}
+                        value={memo[i]}
                         style={{ WhiteSpace: "pre-line" }}
                       ></textarea>
                     </td>
