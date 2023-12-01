@@ -3,13 +3,6 @@ import React from "react";
 const LocationList = ({ locations, onDelete }) => {
   return (
     <>
-      {/* {locations.map((location, index) => (
-        <div key={index}>
-          <button type='button' onClick={() => onDelete(index)}>
-            {location.description.split(",")[0]}
-          </button>
-        </div>
-      ))} */}
       {locations.map((location, index) => (
         <div key={index} style={{ display: "flex", alignItems: "center" }}>
           <span style={{ marginRight: "10px" }}>

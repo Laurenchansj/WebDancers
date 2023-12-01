@@ -12,11 +12,8 @@ export default function NewBlog2({ onAddBlog }) {
   const [endDate, setEndDate] = useState("");
   const [duration, setDuration] = useState(0);
   const [title, setTitle] = useState("");
-  // const [description, setDescription] = useState(Array(duration).fill(""));
   const [memo, setMemo] = useState(Array(duration).fill(""));
   const [postBtn, setPostBtn] = useState(false);
-  const random = Math.floor(Math.random() * 1000000000000000);
-  const [id, setId] = useState(random);
 
   const [locations, setLocations] = useState([]); // [{lat, lng, description}
   const { user } = useUserAuth();
@@ -42,14 +39,6 @@ export default function NewBlog2({ onAddBlog }) {
     return title;
   };
 
-  // const handleDescription = (index, event) => {
-  //   const updatedDescription = [...description];
-  //   updatedDescription[index] = event;
-
-  //   const latestDescription = updatedDescription.slice(0, duration);
-
-  //   setDescription(latestDescription);
-  // };
   const handleMemo = (index, event) => {
     const updatedMemo = [...memo];
     updatedMemo[index] = event;
@@ -108,27 +97,17 @@ export default function NewBlog2({ onAddBlog }) {
           return { dayLocations, dayMemo };
         });
 
-        //3rd way
         const blogDocRef = await addDoc(
           collection(db, `users/${user.uid}/blogs2`),
           {
-            // userId: user.uid,
             startDate: Timestamp.fromDate(new Date(startDate)),
             endDate: Timestamp.fromDate(new Date(endDate)),
             duration: duration,
             title: title,
-            // days: Object.assign({}, ...daysData),
             days: daysData,
           }
         );
         console.log("blogDocRef: ", blogDocRef);
-
-        // check the database for user info
-        // if the user info is not in firestore,
-        // add it to the database
-        // user.displayName && user.email
-        // if the user info is already there,
-        // don't add anything
 
         alert("Your post has been submitted.");
 
@@ -137,10 +116,7 @@ export default function NewBlog2({ onAddBlog }) {
           endDate: endDate,
           duration: duration,
           title: title,
-          // description: description,
           memo: memo,
-          id: id,
-          // docId: docRef.id,
         };
 
         onAddBlog(Blog);
@@ -173,7 +149,6 @@ export default function NewBlog2({ onAddBlog }) {
             <p>Map</p>
           </li>
         </ul>
-        {/* <MapOnly selectedPlace={selectedPlace} /> */}
         <MapOnly locations={locations} />
       </div>
       <form
@@ -263,7 +238,6 @@ export default function NewBlog2({ onAddBlog }) {
                         )}
                         onDelete={handleDelete}
                       />
-                      {/* <button onClick={setSelectedPlace(null)}>reset</button> */}
                       <textarea
                         className='form-input w-full p-1 mr-1 border border-gray-300 rounded'
                         placeholder='Description...'

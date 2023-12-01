@@ -8,7 +8,7 @@ import {
   GithubAuthProvider,
 } from "firebase/auth";
 import { auth, firestore } from "./firebase";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
