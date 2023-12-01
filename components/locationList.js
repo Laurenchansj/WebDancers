@@ -11,7 +11,14 @@ const LocationList = ({ locations, onDelete }) => {
         </div>
       ))} */}
       {locations.map((location, index) => (
-        <div key={index} style={{ display: "flex", alignItems: "center" }}>
+        <div
+          key={index}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+        >
           <span style={{ marginRight: "10px" }}>
             {location.description.split(",")[0]}
           </span>
