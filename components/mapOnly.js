@@ -13,6 +13,7 @@ import usePlaceAutocomplete, {
 export function MapOnly({ locations }) {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [centerMarker, setCenterMarker] = useState(null);
 
   useEffect(() => {
     const initMap = async () => {
@@ -65,8 +66,17 @@ export function MapOnly({ locations }) {
         return newMarker;
       });
       setMarkers(newMarkers);
+      setCenterMarker(newMarkers[0]);
     }
   }, [map, locations]);
+
+  useEffect(() => {
+    if (map && centerMarker) {
+      const centerPostion = centerMarker.getPosition();
+      map.setCenter(centerPostion);
+      map.setZoom(13);
+    }
+  }, [map, centerMarker]);
 
   return (
     <div>
