@@ -1,11 +1,12 @@
+
 "use client";
 
 import Nav from "../components/nav";
 import React from "react";
 import { useState, useEffect } from "react";
-
 import { useUserAuth } from "./_services/auth-context";
-import BlogHome from "@/pages/blogHome";
+import BlogHome from "../pages/blogHome";
+
 
 export default function Home() {
   const { user } = useUserAuth();
