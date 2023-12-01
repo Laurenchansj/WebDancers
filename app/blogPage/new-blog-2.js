@@ -123,6 +123,13 @@ export default function NewBlog2({ onAddBlog }) {
         );
         console.log("blogDocRef: ", blogDocRef);
 
+        // check the database for user info
+        // if the user info is not in firestore,
+        // add it to the database
+        // user.displayName && user.email
+        // if the user info is already there,
+        // don't add anything
+
         alert("Your post has been submitted.");
 
         const Blog = {
