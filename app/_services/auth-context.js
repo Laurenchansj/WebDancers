@@ -6,30 +6,22 @@ import {
   signOut,
   onAuthStateChanged,
   GithubAuthProvider,
+  GoogleAuthProvider,
 } from "firebase/auth";
-import { auth, firestore } from "./firebase";
-import { doc, setDoc, collection, getDoc } from "firebase/firestore";
+import { auth, firestore } from "./firebase"; // Import firestore
+import { doc, setDoc, collection, getDoc, addDoc } from "firebase/firestore"; // Import firestore functions
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // const gitHubSignIn = () => {
-  //   const provider = new GithubAuthProvider();
-  //   return signInWithPopup(auth, provider);
-  // };
-
   const gitHubSignIn = async () => {
     try {
-      const userCredential = await signInWithPopup(
-        auth,
-        new GithubAuthProvider()
-      );
-
+      const userCredential = await signInWithPopup(auth, new GithubAuthProvider());
       const user = userCredential.user;
 
-      const userRef = collection(firestore, "users");
+      const userRef = collection(firestore, 'users');
       const userDoc = doc(userRef, user.uid);
 
       const userInfo = {
@@ -38,29 +30,56 @@ export const AuthContextProvider = ({ children }) => {
       };
 
       await setDoc(userDoc, userInfo, { merge: true });
-      console.log("User info added to firestore: ", userInfo);
+      console.log('User info added to firestore: ', userInfo);
       await checkAndAddUser(userRef, user);
     } catch (error) {
-      console.error("Error signing in: ", error.message);
+      console.error('Error signing in: ', error.message);
+    }
+  };
+
+  const googleSignIn = async () => {
+    try {
+      const userCredential = await signInWithPopup(auth, new GoogleAuthProvider());
+      const user = userCredential.user;
+
+      const userRef = collection(firestore, 'users');
+      const userDoc = doc(userRef, user.uid);
+
+      const userInfo = {
+        name: user.displayName,
+        email: user.email,
+      };
+
+      await setDoc(userDoc, userInfo, { merge: true });
+      console.log('User info added to firestore: ', userInfo);
+      await checkAndAddUser(userRef, user);
+    } catch (error) {
+      console.error('Error signing in with Google: ', error.message);
     }
   };
 
   const checkAndAddUser = async (userRef, user) => {
     const userDoc = doc(userRef, user.uid);
     const userDocSnap = await getDoc(userDoc);
+
     if (!userDocSnap.exists()) {
-      const userDocRef = await addDoc(userDoc, {
+      await addDoc(userRef, {
         name: user.displayName,
         email: user.email,
       });
-      console.log("User info added to firestore: ", userDocRef.id);
+      console.log('User info added to firestore');
     } else {
-      console.log("User already exists");
+      console.log('User already exists');
     }
   };
 
-  const firebaseSignOut = () => {
-    return signOut(auth);
+  const firebaseSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error('Error signing out: ', error.message);
+    }
   };
 
   useEffect(() => {
@@ -71,7 +90,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, gitHubSignIn, firebaseSignOut }}>
+    <AuthContext.Provider value={{ user, gitHubSignIn, googleSignIn, firebaseSignOut }}>
       {children}
     </AuthContext.Provider>
   );
