@@ -26,7 +26,7 @@ export default function Nav() {
   return (
     <header className="flex justify-between items-center w-full px-4 py-2 fixed top-0 bg-white shadow z-10">
       <div className="flex-grow-0">
-        <Link href="./" className="text-xl font-bold text-black">
+        <Link href="../" className="text-xl font-bold text-black">
           TravelDancer
         </Link>
       </div>
@@ -43,6 +43,9 @@ export default function Nav() {
           {user ? (
             <div className="flex flex-row">
               <div className="py-2 px-4">
+                {/* <Link href="./blogPage/myBlogs" className=" text-s text-black">
+                  My Blogs
+                </Link> */}
                 <Link href="./blogPage" className=" text-s text-black mx-12">
                   New Blog
                 </Link>
