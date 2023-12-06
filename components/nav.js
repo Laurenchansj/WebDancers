@@ -43,10 +43,10 @@ export default function Nav() {
           {user ? (
             <div className="flex flex-row">
               <div className="py-2 px-4">
-                {/* <Link href="./blogPage/myBlogs" className=" text-s text-black">
+                <Link href="../myBlogs" className=" text-s text-black">
                   My Blogs
-                </Link> */}
-                <Link href="./blogPage" className=" text-s text-black mx-12">
+                </Link>
+                <Link href="../newBlog" className=" text-s text-black mx-12">
                   New Blog
                 </Link>
               </div>

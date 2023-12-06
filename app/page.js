@@ -18,25 +18,25 @@ import { get } from "http";
 export default function Home() {
   const { user } = useUserAuth();
   const [blogs, setBlogs] = useState([]);
-  // const [hasReload, setHasReload] = useState(false); // [{startDate, endDate, duration, title, memo}
+  const { gotBlogs, setGotBlogs } = useState(false);
 
   useEffect(() => {
-    // if (!hasReload) {
-    //   window.location.reload();
-    //   setHasReload(true);
-    // }
     const fetchBlogs = async () => {
       const userIdList = getAllUsersId();
+      console.dir(userIdList);
       const usersListLength = (await userIdList).length;
-
-      // get only one user blogs
-      // const blogs = await getUserBlogs(userId);
-      // setBlogs(blogs);
 
       for (let i = 0; i < usersListLength; i++) {
         const userId = (await userIdList)[i].id;
-        const blogs = await getUserBlogs(userId);
-        setBlogs((prevBlogs) => [...prevBlogs, ...blogs]);
+        const fetchedBlogs = await getUserBlogs(userId);
+        // console.dir(fetchedBlogs);
+
+        setBlogs((prevBlogs) => {
+          if (prevBlogs[i] != null && prevBlogs[i].id === fetchedBlogs[i].id) {
+            return [...prevBlogs];
+          }
+          return [...prevBlogs, ...fetchedBlogs];
+        });
       }
 
       // const allBlogs = await getAllBlogs();
@@ -59,11 +59,14 @@ export default function Home() {
       //   }
       // });
     };
+    fetchBlogs();
+  }, []);
 
-    if (user) {
-      fetchBlogs(user);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     fetchBlogs(user);
+  //   }
+  // }, [user]);
 
   return (
     <main className="flex flex-col min-h-screen items-center p-24">

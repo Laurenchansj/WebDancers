@@ -6,7 +6,7 @@ import { useUserAuth } from "../_services/auth-context";
 import { collection, addDoc, Timestamp, doc } from "firebase/firestore";
 import { auth, firestore as db } from "../_services/firebase";
 import LocationList from "@/components/locationList";
-import Blog from "../blogPage/blog";
+import Blog from "./blog";
 
 export default function NewBlog2({ onAddBlog }) {
   const [startDate, setStartDate] = useState("");
@@ -128,14 +128,11 @@ export default function NewBlog2({ onAddBlog }) {
         const blogDocRef = await addDoc(
           collection(db, `users/${user.uid}/blogs2`),
           {
-            // startDate: Timestamp.fromDate(new Date(startDate)),
-            // endDate: Timestamp.fromDate(new Date(endDate)),
             startDate: startDate,
             endDate: endDate,
             duration: duration,
             title: title,
             days: daysData,
-            //new added
             writtenDate: writtenDate,
             user: user.displayName,
             country: country,

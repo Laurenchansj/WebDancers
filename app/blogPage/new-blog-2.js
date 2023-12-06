@@ -136,7 +136,7 @@ export default function NewBlog2({ onAddBlog }) {
 
   return (
     <div>
-      <p className='text-2xl text-cyan-600'>New Post</p>
+      <p className="text-2xl text-cyan-600">New Post</p>
       <div
         style={{
           flex: "1",
@@ -144,7 +144,7 @@ export default function NewBlog2({ onAddBlog }) {
           maxHeight: "100hv",
         }}
       >
-        <ul className='mx-4 mt-2 text-xl text-cyan-600 list-disc'>
+        <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
           <li>
             <p>Map</p>
           </li>
@@ -166,47 +166,47 @@ export default function NewBlog2({ onAddBlog }) {
             maxHeight: "100hv",
           }}
         >
-          <ul className='mx-4 mt-2 text-xl text-cyan-600 list-disc'>
+          <ul className="mx-4 mt-2 text-xl text-cyan-600 list-disc">
             <li>
               <p>Description</p>
             </li>
           </ul>
 
           <div
-            className='p-5 border border-cyan-600 rounded-lg bg-sky-50'
+            className="p-5 border border-cyan-600 rounded-lg bg-sky-50"
             style={{ width: "800px" }}
           >
             <table>
               <tbody>
                 <tr>
-                  <td className='text-left'>
-                    <label className='mr-5 text-cyan-800'>From: </label>
+                  <td className="text-left">
+                    <label className="mr-5 text-cyan-800">From: </label>
                   </td>
-                  <td className='text-left'>
-                    <label className='mr-5 text-cyan-800'>To: </label>
+                  <td className="text-left">
+                    <label className="mr-5 text-cyan-800">To: </label>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <input
-                      type='date'
-                      className='form-input w-40 max-w-md p-1 border border-gray-300 rounded'
+                      type="date"
+                      className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
                       onChange={handleStartDateChange}
                       value={startDate}
                     ></input>
                   </td>
                   <td>
                     <input
-                      type='date'
-                      className='form-input w-40 max-w-md p-1 border border-gray-300 rounded'
+                      type="date"
+                      className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
                       onChange={handleEndDateChange}
                       value={endDate}
                     ></input>
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={4} className='text-left pt-5'>
-                    <label className='pt-5 text-cyan-800 col-span-4'>
+                  <td colSpan={4} className="text-left pt-5">
+                    <label className="pt-5 text-cyan-800 col-span-4">
                       Title:
                     </label>
                   </td>
@@ -214,9 +214,9 @@ export default function NewBlog2({ onAddBlog }) {
                 <tr>
                   <td colSpan={4}>
                     <input
-                      type='text'
-                      className='form-input w-full p-1 mr-1 border border-gray-300 rounded'
-                      placeholder='Title...'
+                      type="text"
+                      className="form-input w-full p-1 mr-1 border border-gray-300 rounded"
+                      placeholder="Title..."
                       onChange={handleTitleChange}
                       value={title}
                     ></input>
@@ -224,8 +224,8 @@ export default function NewBlog2({ onAddBlog }) {
                 </tr>
 
                 {[...Array(duration)].map((_, i) => (
-                  <tr key={i + 1} className='text-cyan-800'>
-                    <td colSpan={4} className='pt-5'>
+                  <tr key={i + 1} className="text-cyan-800">
+                    <td colSpan={4} className="pt-5">
                       <p>Day {i + 1}</p>
                       <MapInput
                         onSelectPlace={(place) =>
@@ -239,8 +239,8 @@ export default function NewBlog2({ onAddBlog }) {
                         onDelete={handleDelete}
                       />
                       <textarea
-                        className='form-input w-full p-1 mr-1 border border-gray-300 rounded'
-                        placeholder='Description...'
+                        className="form-input w-full p-1 mr-1 border border-gray-300 rounded"
+                        placeholder="Description..."
                         onChange={(memo) => handleMemo(i, memo.target.value)}
                         value={memo[i]}
                         style={{ WhiteSpace: "pre-line" }}
@@ -252,10 +252,10 @@ export default function NewBlog2({ onAddBlog }) {
             </table>
           </div>
           {postBtn ? (
-            <div className='grid justify-items-end mt-5 m-1'>
+            <div className="grid justify-items-end mt-5 m-1">
               <button
-                type='submit'
-                className='ml-2 p-2 px-4 bg-cyan-600 text-white rounded-lg hover:bg-cyan-900'
+                type="submit"
+                className="ml-2 p-2 px-4 bg-cyan-600 text-white rounded-lg hover:bg-cyan-900"
                 value={postBtn}
               >
                 Post

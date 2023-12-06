@@ -4,12 +4,6 @@ export default function Blog({ blog }) {
       <p className="ml-20 mt-8"> Please completed the description form.</p>
     );
   }
-  // for (let i = 0; i < blog.days.length; i++) {
-  //   for (let j = 0; j < blog.days[i].dayLocations.length; j++) {
-  //     console.log(blog.days[i].dayLocations[j].description);
-  //   }
-  //   console.log(blog.days[i].dayMemo);
-  // }
 
   return (
     <div>
