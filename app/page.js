@@ -6,6 +6,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useUserAuth } from "./_services/auth-context";
 import BlogHome from "../pages/blogHome";
+import Footer from "@/components/footer";
 
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
           <BlogHome />
         </div>
       </div>
+      <Footer />      
     </main>
   );
 }

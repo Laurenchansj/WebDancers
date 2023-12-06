@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useUserAuth } from "@/app/_services/auth-context";
 import Link from "next/link";
-import Footer from "./footer";
 
 export default function Nav() {
   const { user, gitHubSignIn, googleSignIn, firebaseSignOut } = useUserAuth();
@@ -112,8 +111,7 @@ export default function Nav() {
             )}
           </div>
         </div>
-      </header>
-      <Footer />
+      </header>      
     </>
   );
 }
