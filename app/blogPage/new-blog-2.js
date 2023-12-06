@@ -136,7 +136,9 @@ export default function NewBlog2({ onAddBlog }) {
 
   return (
     <div>
-      <p className='text-2xl text-cyan-600'>New Post</p>
+      <div className='flex justify-center mb5'>
+        <p className='text-2xl font-bold text-black'>New Post</p>
+      </div>
       <div
         style={{
           flex: "1",
@@ -144,7 +146,7 @@ export default function NewBlog2({ onAddBlog }) {
           maxHeight: "100hv",
         }}
       >
-        <ul className='mx-4 mt-2 text-xl text-cyan-600 list-disc'>
+        <ul className='mx-4 mt-2 text-xl text-black list-disc'>
           <li>
             <p>Map</p>
           </li>
@@ -166,7 +168,7 @@ export default function NewBlog2({ onAddBlog }) {
             maxHeight: "100hv",
           }}
         >
-          <ul className='mx-4 mt-2 text-xl text-cyan-600 list-disc'>
+          <ul className='mx-4 mt-4 text-xl text-black list-disc'>
             <li>
               <p>Description</p>
             </li>
