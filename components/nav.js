@@ -1,4 +1,4 @@
-
+"use client";
 
 import React, { useState } from "react";
 import { useUserAuth } from "@/app/_services/auth-context";
@@ -36,7 +36,9 @@ export default function Nav() {
     <>
       <header className="flex justify-between items-center w-full px-4 py-2 fixed top-0 bg-[#ffffff] shadow z-10">
         <div className="flex-grow-0">
-          <p className="text-xl font-bold text-black">TravelDancer</p>
+        <Link href="./" className="text-xl font-bold text-black">
+          TravelDancer
+        </Link>
         </div>
         <div className="flex-grow justify-center hidden sm:flex">
           <input
@@ -45,7 +47,6 @@ export default function Nav() {
             placeholder="Search Country or City..."
           />
         </div>
-
         <div className="flex-grow-0">
           <div>
             {user ? (
