@@ -6,11 +6,7 @@ import { useState, useEffect } from "react";
 import { useUserAuth } from "./_services/auth-context";
 // import BlogHome from "../pages/blogHome";
 
-import {
-  getUserBlogs,
-  getAllUsersId,
-  getAllBlogs,
-} from "./_services/blog-service";
+import { getAllBlogs } from "./_services/blog-service";
 import Link from "next/link";
 import BriefBlog from "./blogPage/brief-blog";
 import { get } from "http";
@@ -18,55 +14,29 @@ import { get } from "http";
 export default function Home() {
   const { user } = useUserAuth();
   const [blogs, setBlogs] = useState([]);
-  const { gotBlogs, setGotBlogs } = useState(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const userIdList = getAllUsersId();
-      console.dir(userIdList);
-      const usersListLength = (await userIdList).length;
-
-      for (let i = 0; i < usersListLength; i++) {
-        const userId = (await userIdList)[i].id;
-        const fetchedBlogs = await getUserBlogs(userId);
-        // console.dir(fetchedBlogs);
-
-        setBlogs((prevBlogs) => {
-          if (prevBlogs[i] != null && prevBlogs[i].id === fetchedBlogs[i].id) {
-            return [...prevBlogs];
+      const allBlogs = await getAllBlogs();
+      allBlogs.sort((a, b) => {
+        if (a.writtenDate != b.writtenDate) {
+          if (a.writtenDate > b.writtenDate) {
+            return -1;
+          } else {
+            return 1;
           }
-          return [...prevBlogs, ...fetchedBlogs];
-        });
-      }
-
-      // const allBlogs = await getAllBlogs();
-      // console.log("allBlogs in home page: ", allBlogs[0].blogs[0]);
-
-      // blogs.sort((a, b) => {
-      //   if (a.writtenDate != b.writtenDate) {
-      //     if (a.writtenDate > b.writtenDate) {
-      //       return -1;
-      //     } else {
-      //       return 1;
-      //     }
-      //     console.log("doing");
-      //   } else {
-      //     if (a.title > b.title) {
-      //       return 1;
-      //     } else {
-      //       return -1;
-      //     }
-      //   }
-      // });
+        } else {
+          if (a.country > b.country) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+      });
+      setBlogs(allBlogs);
     };
     fetchBlogs();
   }, []);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     fetchBlogs(user);
-  //   }
-  // }, [user]);
 
   return (
     <main className="flex flex-col min-h-screen items-center p-24">

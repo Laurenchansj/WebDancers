@@ -5,11 +5,25 @@ export default function Blog({ blog }) {
     );
   }
 
+  const countryListLength = blog.country.length;
+
   return (
     <div>
       {/* <h1 className="ml-20 mt-2">&#10024;Submitted Result&#10024;</h1> */}
       <div className="ml-20 py-3 px-5 mt-2 border border-cyan-900 rounded-lg text-cyan-800">
-        <p>Country: {blog.country}</p>
+        <p>
+          Country:
+          {countryListLength > 1 ? (
+            blog.country.map((country, i) => (
+              <span key={i}>
+                {country}
+                {i < blog.country.length - 1 ? ", " : ""}
+              </span>
+            ))
+          ) : (
+            <span>{blog.country}</span>
+          )}
+        </p>
         <p>
           Date: {blog.startDate} to {blog.endDate}
         </p>

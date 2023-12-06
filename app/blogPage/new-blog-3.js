@@ -118,12 +118,22 @@ export default function NewBlog2({ onAddBlog }) {
         console.log("daysData: ", daysData);
 
         // get country name from description
-        const lengthForCountry =
-          daysData[0].dayLocations[0].description.split(",").length;
-        const country = daysData[0].dayLocations[0].description
-          .split(",")
-          [lengthForCountry - 1].trim();
-        console.log("country: ", country);
+        const country = [];
+        const daysDataLength = daysData.length;
+        for (let i = 0; i < daysDataLength; i++) {
+          const dayLocationsLength = daysData[i].dayLocations.length;
+          for (let j = 0; j < dayLocationsLength; j++) {
+            const lengthForCountry =
+              daysData[i].dayLocations[j].description.split(",").length;
+            let countryName = daysData[i].dayLocations[j].description
+              .split(",")
+              [lengthForCountry - 1].trim();
+            if (countryName !== "" && !country.includes(countryName)) {
+              country.push(countryName);
+            }
+          }
+        }
+        country.sort();
 
         const blogDocRef = await addDoc(
           collection(db, `users/${user.uid}/blogs2`),
@@ -151,6 +161,7 @@ export default function NewBlog2({ onAddBlog }) {
           days: daysData,
           writtenDate: writtenDate,
           user: user.displayName,
+          country: country,
           // memo: memo,
         };
 
