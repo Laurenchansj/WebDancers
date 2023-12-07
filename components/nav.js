@@ -5,7 +5,7 @@ import { useUserAuth } from "@/app/_services/auth-context";
 import Link from "next/link";
 
 export default function Nav() {
-  const { user, gitHubSignIn, googleSignIn, firebaseSignOut } = useUserAuth(); 
+  const { user, gitHubSignIn, googleSignIn, firebaseSignOut } = useUserAuth();
   const [showModal, setShowModal] = useState(false);
 
   async function handleSignIn(provider) {
@@ -34,21 +34,34 @@ export default function Nav() {
     <>
       <header className="flex flex-grow-0 flex-shrink-0 flex-basis-auto first-letter:justify-between items-center w-full px-4 py-2 fixed top-0 bg-[#ffffff] shadow z-10">
         <div>
-        <Link href="./" className="text-3xl font-sans font-bold text-cyan-600 ml-5">
-          TravelDancer
-        </Link>
-        </div>        
+          <Link
+            href="./"
+            className="text-3xl font-sans font-bold text-cyan-600 ml-5"
+          >
+            TravelDancer
+          </Link>
+        </div>
         <div className="flex-grow justify-center hidden sm:flex">
-            {user ? <p className='ml-5 '>- Welcome, {user.displayName} -</p> : <p></p>}
+          {user ? (
+            <p className="ml-5 ">- Welcome, {user.displayName} -</p>
+          ) : (
+            <p></p>
+          )}
         </div>
         <div className="flex-grow-0">
           <div>
             {user ? (
               <div className="flex flex-row">
-                <div 
-                className="py-2 px-1 mx-4 text-cyan-500 bg-white hover:bg-cyan-500 hover:text-white rounded-lg "
-                >
-                  <Link href="./blogPage" className=" text-s mx-2">
+                <div className="py-2 px-1 mx-4 text-cyan-500 bg-white hover:bg-cyan-500 hover:text-white rounded-lg ">
+                  <Link
+                    href="../myBlogs"
+                    className=" text-s text-cyan-500 mx-2"
+                  >
+                    My Blogs
+                  </Link>
+                </div>
+                <div className="py-2 px-1 mx-4 text-cyan-500 bg-white hover:bg-cyan-500 hover:text-white rounded-lg ">
+                  <Link href="../newBlog" className=" text-s mx-2">
                     New Blog
                   </Link>
                 </div>
@@ -71,22 +84,22 @@ export default function Nav() {
                 </button>
 
                 {showModal && (
-                  <div 
-                  className="fixed top-1/2 left-1/2 bg-black bg-opacity-50 flex justify-center items-center transform -translate-x-1/2 -translate-y-1/2 rounded-lg">                             
-                    <div 
+                  <div className="fixed top-1/2 left-1/2 bg-black bg-opacity-50 flex justify-center items-center transform -translate-x-1/2 -translate-y-1/2 rounded-lg">
+                    <div
                       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#ffffff]
                                  border-black border-4 p-20 rounded-md"
-                      
-                      >
+                    >
                       <div>
-                        <span                        
+                        <span
                           className="absolute top-10 right-10 text-2xl cursor-pointer"
                           onClick={() => setShowModal(false)}
-                          >
+                        >
                           &times;
-                        </span> 
+                        </span>
                         <div>
-                          <div className="mb-10 text-xl font-bold flex justify-center">Sign-in to add blog</div>                  
+                          <div className="mb-10 text-xl font-bold flex justify-center">
+                            Sign-in to add blog
+                          </div>
                           <button
                             className="p-2 ml-2 m-1 w-44 rounded-lg text-white bg-black hover:bg-gray-700 items-center justify-center"
                             onClick={() => handleSignIn("github")}
@@ -98,8 +111,8 @@ export default function Nav() {
                             onClick={() => handleSignIn("google")}
                           >
                             Sign in with Google
-                          </button> 
-                        </div>                   
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -108,7 +121,7 @@ export default function Nav() {
             )}
           </div>
         </div>
-      </header>      
+      </header>
     </>
   );
 }

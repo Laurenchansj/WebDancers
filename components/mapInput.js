@@ -52,10 +52,14 @@ export function MapInput({ onSelectPlace }) {
           setValue(e.target.value);
           setSelectedPlace(e.target.value);
         }}
-        placeholder='Enter a location'
-        className='border border-gray-300 rounded'
+        placeholder="Enter a location"
+        className="border border-gray-300 rounded"
       />
-      <button type='button' onClick={handleClear}>
+      <button
+        type="button"
+        onClick={handleClear}
+        className="bg-gray-500 hover:bg-gray-700 text-white px-2 mx-2 mb-1 rounded"
+      >
         Clear
       </button>
       <ul>
