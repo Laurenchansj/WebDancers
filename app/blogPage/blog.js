@@ -1,4 +1,5 @@
-import { BlogMap } from "@/components/blogMap";
+import React from "react";
+import BlogMap from "@/components/blogMap";
 
 export default function Blog({ blog }) {
   if (!blog) {
@@ -13,9 +14,7 @@ export default function Blog({ blog }) {
     <div>
       {/* <h1 className="ml-20 mt-2">&#10024;Submitted Result&#10024;</h1> */}
       <div className="ml-20 py-3 px-5 mt-2 border border-cyan-900 rounded-lg text-cyan-800">
-        <div>
-            {/* <BlogMap blog={blog} /> */}
-        </div>
+        <BlogMap blog={blog} />
         <p>
           Country:
           {countryListLength > 1 ? (

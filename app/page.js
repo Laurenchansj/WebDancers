@@ -11,6 +11,7 @@ import Link from "next/link";
 import BriefBlog from "./blogPage/brief-blog";
 import { get } from "http";
 
+
 export default function Home() {
   const { user } = useUserAuth();
   const [blogs, setBlogs] = useState([]);
@@ -49,6 +50,7 @@ export default function Home() {
           </p>
         </div>
         <div>
+
           {/* <BlogHome /> */}
           {blogs &&
             blogs.map((blog) => (

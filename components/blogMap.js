@@ -1,10 +1,11 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
-export function BlogMap({ locations }) {
+export default function BlogMap({ blog }) {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const [centerMarker, setCenterMarker] = useState(null);
 
   useEffect(() => {
     const initMap = async () => {
@@ -30,45 +31,35 @@ export function BlogMap({ locations }) {
     };
 
     initMap();
-  }, []); // Empty dependency array ensures that this effect runs once after the initial render
+  }, []);
 
   useEffect(() => {
-    // Clear existing markers
-    markers.forEach((marker) => marker.setMap(null));
+    if (map && blog && blog.days) {
+      markers.forEach(marker => marker.setMap(null));
 
-    if (map && locations.length > 0) {
-      const newMarkers = locations.map((location) => {
-        const newMarker = new google.maps.Marker({
-          position: { lat: location.lat, lng: location.lng },
-          map,
-          title: location.description,
+      let bounds = new google.maps.LatLngBounds();
+
+      blog.days.forEach(day => {
+        day.dayLocations.forEach(location => {
+          const markerPosition = new google.maps.LatLng(location.lat, location.lng);
+          bounds.extend(markerPosition);
+
+          const marker = new google.maps.Marker({
+            position: markerPosition,
+            map: map,
+          });
+
+          markers.push(marker);
         });
-        return newMarker;
       });
 
-      // Set the markers
-      setMarkers(newMarkers);
-
-      // Calculate the center of all markers
-      const bounds = new google.maps.LatLngBounds();
-      newMarkers.forEach((marker) => {
-        bounds.extend(marker.getPosition());
-      });
-
-      // Fit the map to the bounds of all markers
       map.fitBounds(bounds);
-
-      // Set a reasonable max zoom level
-      const maxZoom = 15;
-      if (map.getZoom() > maxZoom) {
-        map.setZoom(maxZoom);
-      }
     }
-  }, [map, locations]);
+  }, [map, blog]);
 
   return (
     <div>
-      <div id="map" style={{ height: "300px", width: "800px" }} />
+      <div id="map" style={{ height: "500px", width: "800px" }} />
     </div>
   );
 }
