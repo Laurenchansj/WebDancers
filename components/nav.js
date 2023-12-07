@@ -5,8 +5,7 @@ import { useUserAuth } from "@/app/_services/auth-context";
 import Link from "next/link";
 
 export default function Nav() {
-  const { user, gitHubSignIn, googleSignIn, firebaseSignOut } = useUserAuth();
-  // const [signIn, setSignIn] = useState(false);
+  const { user, gitHubSignIn, googleSignIn, firebaseSignOut } = useUserAuth(); 
   const [showModal, setShowModal] = useState(false);
 
   async function handleSignIn(provider) {
@@ -17,7 +16,7 @@ export default function Nav() {
       if (provider === "google") {
         await googleSignIn();
       }
-      setShowModal(false); // close the Modal popup window after sign in
+      setShowModal(false);
     } catch (error) {
       console.error(error);
     }
@@ -38,22 +37,15 @@ export default function Nav() {
         <Link href="./" className="text-3xl font-sans font-bold text-cyan-600 ml-5">
           TravelDancer
         </Link>
-        </div>
-        {/* {user ? <p className='ml-5'>Welcome, {user.displayName}</p> : <p></p>} */}
+        </div>        
         <div className="flex-grow justify-center hidden sm:flex">
-          <input
-            type="text"
-            className="form-input w-full max-w-md border border-gray-300 rounded-md py-2 px-4 block"
-            placeholder="Search Country or City..."
-          />
+            {user ? <p className='ml-5 '>- Welcome, {user.displayName} -</p> : <p></p>}
         </div>
-        {user ? <p className='ml-5 '>|| Welcome, {user.displayName} ||</p> : <p></p>}
         <div className="flex-grow-0">
           <div>
             {user ? (
               <div className="flex flex-row">
                 <div 
-                // className="py-2 px-1 mx-4 bg-white text-cyan-500 hover:bg-cyan-500 hover:text-white rounded-lg "
                 className="py-2 px-1 mx-4 text-cyan-500 bg-white hover:bg-cyan-500 hover:text-white rounded-lg "
                 >
                   <Link href="./blogPage" className=" text-s mx-2">
@@ -62,7 +54,6 @@ export default function Nav() {
                 </div>
                 <div>
                   <button
-                    // className="bg-[#FFD670] hover:bg-[#FF9770] text-white py-2 px-4 rounded-lg"
                     className="bg-[#FF9770] hover:bg-[#FFD670] text-[#ffffff] hover:text-white py-2 px-4 rounded-lg"
                     onClick={handleSignOut}
                   >

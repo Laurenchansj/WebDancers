@@ -1,6 +1,5 @@
 
 
-
 import React, { useState } from "react";
 import Link from "next/link";
 
@@ -23,11 +22,7 @@ export default function Footer() {
         </div>
         <div className="flex-shrink-0 text-xs ml-0">            
             © 2023 TravelDancer. All rights reserved.
-        </div>        
-        {/* <div className="flex: 1">
-          <p className="font-bold">Contact us:</p>
-          <p className="text-xs">contact info?</p>
-        </div> */}
+        </div> 
       </div>
   </footer>
   );
