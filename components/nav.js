@@ -53,15 +53,12 @@ export default function Nav() {
             {user ? (
               <div className="flex flex-row">
                 <div className="py-2 px-1 mx-4 text-cyan-500 bg-white hover:bg-cyan-500 hover:text-white rounded-lg ">
-                  <Link
-                    href="../myBlogs"
-                    className=" text-s text-cyan-500 mx-2"
-                  >
+                  <Link href="../myBlogs" className="text-s mx-2">
                     My Blogs
                   </Link>
                 </div>
                 <div className="py-2 px-1 mx-4 text-cyan-500 bg-white hover:bg-cyan-500 hover:text-white rounded-lg ">
-                  <Link href="../newBlog" className=" text-s mx-2">
+                  <Link href="../newBlog" className=" text-s">
                     New Blog
                   </Link>
                 </div>
