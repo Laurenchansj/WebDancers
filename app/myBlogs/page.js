@@ -7,7 +7,7 @@ import { getUserBlogs } from "../_services/blog-service";
 import BriefBlog from "../blogPage/brief-blog";
 import Link from "next/link";
 
-export default function page() {
+export default function Page() {
   const { user } = useUserAuth();
   const thisUser = user?.uid;
   const [thisUserBlogs, setThisUserBlogs] = useState([]);
