@@ -5,7 +5,7 @@ import { useState } from "react";
 import React from "react";
 import { useUserAuth } from "../_services/auth-context";
 
-export default function page() {
+export default function Page() {
   const { user } = useUserAuth();
   const [newBlogs, setNewBlogs] = useState([]);
 
