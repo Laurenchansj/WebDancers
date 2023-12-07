@@ -35,7 +35,7 @@ export default function Nav() {
       <header className="flex flex-grow-0 flex-shrink-0 flex-basis-auto first-letter:justify-between items-center w-full px-4 py-2 fixed top-0 bg-[#ffffff] shadow z-10">
         <div>
           <Link
-            href="./"
+            href="../"
             className="text-3xl font-sans font-bold text-cyan-600 ml-5"
           >
             TravelDancer
