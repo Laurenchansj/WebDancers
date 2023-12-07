@@ -4,6 +4,7 @@ import Nav from "../../components/nav";
 import { useState } from "react";
 import React from "react";
 import { useUserAuth } from "../_services/auth-context";
+import Footer from "@/components/footer";
 
 export default function page() {
   const { user } = useUserAuth();
@@ -24,8 +25,11 @@ export default function page() {
           </div>
         </div>
       ) : (
-        <p className='mt-20'>Please Log In first.</p>
+        <div className='flex flex-1 flex-col lg:flex-row w-full min-h-full justify-center'>
+          <p className='mt-20'>Please Log In first.</p>
+        </div>
       )}
+      <Footer />
     </main>
   );
 }

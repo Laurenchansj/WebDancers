@@ -62,7 +62,7 @@ export function MapOnly({ locations }) {
 
   return (
     <div>
-      <div id='map' style={{ height: "300px", width: "800px" }} />
+      <div id='map' style={{ height: "300px", width: "800px", borderRadius: "10px 10px 10px 10px" }} />
     </div>
   );
 }
