@@ -1,4 +1,5 @@
 import BlogMap from "@/components/blogMap";
+import React from "react";
 
 export default function Blog({ blog }) {
   if (!blog) {

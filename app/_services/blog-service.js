@@ -1,5 +1,5 @@
 import { auth, firestore as db } from "../_services/firebase";
-import { collection, getDocs, getDoc, doc, where } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc} from "firebase/firestore";
 
 export const getBlog = async (authorId, blogId) => {
   try {

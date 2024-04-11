@@ -7,6 +7,7 @@ import { collection, addDoc, Timestamp, doc } from "firebase/firestore";
 import { auth, firestore as db } from "../_services/firebase";
 import LocationList from "@/components/locationList";
 import Blog from "./blog";
+import React from "react";
 
 export default function NewBlog2({ onAddBlog }) {
   const [startDate, setStartDate] = useState("");
@@ -229,16 +230,17 @@ export default function NewBlog2({ onAddBlog }) {
               <tbody>
                 <tr>
                   <td className="text-left">
-                    <label className="mr-5 text-cyan-800">From: </label>
+                    <label className="mr-5 text-cyan-800" htmlFor="startDate">From: </label>
                   </td>
                   <td className="text-left">
-                    <label className="mr-5 text-cyan-800">To: </label>
+                    <label className="mr-5 text-cyan-800" htmlFor="endDate">To: </label>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <input
                       type="date"
+                      id="startDate"
                       className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
                       onChange={handleStartDateChange}
                       value={startDate}
@@ -247,6 +249,7 @@ export default function NewBlog2({ onAddBlog }) {
                   <td>
                     <input
                       type="date"
+                      id="endDate"
                       className="form-input w-40 max-w-md p-1 border border-gray-300 rounded"
                       onChange={handleEndDateChange}
                       value={endDate}
