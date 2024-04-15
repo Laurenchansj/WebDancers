@@ -12,10 +12,9 @@ jobs:
         run: npm install -g firebase-tools
       - name: Install dependencies
         run: npm install
-      - name: Run tests
-        working-directory: test
       - name: Start the Firebase Emulators
         run: firebase emulators:start
         background: true
-      - name: Run all the tests
+      - name: Run tests
+        working-directory: test
         run: npm test
