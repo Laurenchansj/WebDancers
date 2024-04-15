@@ -27,9 +27,9 @@ function getFirestore(auth) {
 }
 
 describe("Test", () => {
-  this.timeout(10000);
   // test 1
-  it("Can setup user 1", async () => {
+  it("Can setup user 1", async function () {
+    this.timeout(10000);
     const db = getFirestore(userTest1);
     const userDoc = db.collection("users").doc(userTest1.uid);
     await firebase.assertSucceeds(
@@ -38,7 +38,8 @@ describe("Test", () => {
   });
 
   // test 2
-  it("Can setup user 2", async () => {
+  it("Can setup user 2", async function () {
+    this.timeout(10000);
     const db = getFirestore(userTest2);
     const userDoc = db.collection("users").doc(userTest2.uid);
     await firebase.assertSucceeds(
@@ -47,7 +48,8 @@ describe("Test", () => {
   });
 
   // test 3
-  it("Can write to the user document with the same ID as the web user", async () => {
+  it("Can write to the user document with the same ID as the web user", async function () {
+    this.timeout(10000);
     const db = getFirestore(userTest1);
     const userDoc = db
       .collection("users")
@@ -60,7 +62,8 @@ describe("Test", () => {
   });
 
   // test 4
-  it("Can write another blog to the user document with the same ID as the web user", async () => {
+  it("Can write another blog to the user document with the same ID as the web user", async function () {
+    this.timeout(10000);
     const db = getFirestore(userTest1);
     const userDoc = db
       .collection("users")
@@ -73,7 +76,8 @@ describe("Test", () => {
   });
 
   // test 5
-  it("Can't write to the user document without sign-in", async () => {
+  it("Can't write to the user document without sign-in", async function () {
+    this.timeout(10000);
     const db = getFirestore(null);
     const userDoc = db
       .collection("users")
@@ -86,7 +90,8 @@ describe("Test", () => {
   });
 
   // test 6
-  it("Can read other users document with sign-in", async () => {
+  it("Can read other users document with sign-in", async function () {
+    this.timeout(10000);
     const db = getFirestore(userTest2);
     const userDoc = db
       .collection("users")
@@ -96,7 +101,8 @@ describe("Test", () => {
   });
 
   // test 7
-  it("Can read other users document without sign-in", async () => {
+  it("Can read other users document without sign-in", async function () {
+    this.timeout(10000);
     const db = getFirestore(null);
     const userDoc = db
       .collection("users")
@@ -106,7 +112,8 @@ describe("Test", () => {
   });
 
   // test 8
-  it("Handle database disconnecting error", async () => {
+  it("Handle database disconnecting error", async function () {
+    this.timeout(10000);
     const db = getFirestore(null);
     db.settings(dbConnectionSetting);
     const userDoc = db
@@ -124,7 +131,8 @@ describe("Test", () => {
   });
 
   // test 9
-  it("Database reconnecting successfully", async () => {
+  it("Database reconnecting successfully", async function () {
+    this.timeout(10000);
     // terminate the connection
     let db = getFirestore(null);
     db.settings(dbConnectionSetting);
