@@ -14,9 +14,9 @@ jobs:
         run: npm install
       - name: Start the Firebase Emulators
         run: firebase emulators:start &
+      - name: Install mocha
+        working-directory: test
+        run: npm install mocha
       - name: Run tests with npm
         working-directory: test
         run: npm test
-      - name: Run tests with npx mocha
-        working-directory: test
-        run: npx mocha --exit
