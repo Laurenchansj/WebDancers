@@ -1,3 +1,4 @@
+name: Firebase CI
 on: [push, pull_request]
 jobs:
   emulator_test:
