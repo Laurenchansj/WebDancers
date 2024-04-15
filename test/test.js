@@ -28,23 +28,29 @@ function getFirestore(auth) {
 
 describe("Test", () => {
   // test 1
-  it("Can setup user 1", async function () {
-    this.timeout(10000);
-    const db = getFirestore(userTest1);
-    const userDoc = db.collection("users").doc(userTest1.uid);
-    await firebase.assertSucceeds(
-      userDoc.set({ name: "User One", email: "user_1@gmail.com" })
-    );
+  it("Can setup user 1", (done) => {
+    setTimeout(() => {
+      const db = getFirestore(userTest1);
+      const userDoc = db.collection("users").doc(userTest1.uid);
+      firebase.assertSucceeds(
+        userDoc.set({ name: "User One", email: "user_1@gmail.com" })
+      );
+      done();
+    }, 1000);
   });
 
   // test 2
-  it("Can setup user 2", async function () {
-    this.timeout(10000);
-    const db = getFirestore(userTest2);
-    const userDoc = db.collection("users").doc(userTest2.uid);
-    await firebase.assertSucceeds(
-      userDoc.set({ name: "User Two", email: "user_2@gmail.com" })
-    );
+  it("Can setup user 2", () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const db = getFirestore(userTest2);
+        const userDoc = db.collection("users").doc(userTest2.uid);
+        firebase.assertSucceeds(
+          userDoc.set({ name: "User Two", email: "user_2@gmail.com" })
+        );
+        resolve();
+      }, 1000);
+    });
   });
 
   // test 3
