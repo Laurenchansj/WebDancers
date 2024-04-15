@@ -1,3 +1,4 @@
+name: Firebase  CI
 on: [push, pull_request]
 jobs:
   emulator_test:
@@ -14,7 +15,7 @@ jobs:
         run: npm install
       - name: Install mocha
         working-directory: test
-        run: npm install mocha --save-dev
+        run: npm install --save-dev mocha
       - name: Run tests with npm
         working-directory: test
         run: npm test
