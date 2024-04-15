@@ -13,7 +13,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Start the Firebase Emulators
-        run: firebase emulators:start &
+        run: firebase emulators:start --only firestore --port 8081&
       - name: Install mocha
         working-directory: test
         run: npm install mocha
