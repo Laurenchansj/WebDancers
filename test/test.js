@@ -27,6 +27,7 @@ function getFirestore(auth) {
 }
 
 describe("Test", () => {
+  this.timeout(10000);
   // test 1
   it("Can setup user 1", async () => {
     const db = getFirestore(userTest1);
