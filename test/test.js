@@ -115,16 +115,14 @@ describe("Test", () => {
   });
 
   // test 7
-  it("Can read other users document without sign-in", () => {
-    return new Promise((resolve, reject) => {
-      const db = getFirestore(null);
-      const userDoc = db
-        .collection("users")
-        .doc(userTest1.uid)
-        .collection("blogs2");
-      firebase.assertSucceeds(userDoc.get());
-      resolve();
-    }, 1000);
+  it("Can read other users document without sign-in", async function () {
+    this.timeout(10000);
+    const db = getFirestore(null);
+    const userDoc = db
+      .collection("users")
+      .doc(userTest1.uid)
+      .collection("blogs2");
+    await firebase.assertSucceeds(userDoc.get());
   });
 
   // test 8
