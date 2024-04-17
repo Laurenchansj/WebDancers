@@ -1,4 +1,4 @@
-name: Firebase CI
+name: Firebase  CI
 on: [push, pull_request]
 jobs:
   emulator_test:
@@ -18,7 +18,7 @@ jobs:
         run: npm uninstall mocha
       - name: Install mocha
         working-directory: test
-        run: npm install mocha --save-dev
+        run: npm install --save-dev mocha
       - name: Run tests with npm
         working-directory: test
         run: npm test

@@ -28,14 +28,14 @@ function getFirestore(auth) {
 
 describe("Test", () => {
   // test 1
-  it("Can setup user 1", (done) => {
-    setTimeout(() => {
+  it("Can setup user 1", () => {
+    return new Promise((resolve, reject) => {
       const db = getFirestore(userTest1);
       const userDoc = db.collection("users").doc(userTest1.uid);
       firebase.assertSucceeds(
         userDoc.set({ name: "User One", email: "user_1@gmail.com" })
       );
-      done();
+      resolve();
     }, 1000);
   });
 
